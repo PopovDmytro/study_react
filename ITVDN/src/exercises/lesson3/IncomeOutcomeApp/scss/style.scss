@@ -1,0 +1,38 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.app-wrapper {
+  background: #bfbfbf;
+}
+
+.container {
+  background: #fff;
+  box-shadow: 0 0 10px 0 #7b7b7b;
+  max-width: 500px;
+  margin: auto;
+  padding: 30px 20px;
+  border-left: 1px solid #bfbfbf;
+  border-right: 1px solid #bfbfbf;
+}
+
+.filter-block,
+.edit-block {
+  border:1px solid #1db4f9;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  transition: 0.5s all;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px;
+  }
+}
+
+.filter-block {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 30px 0 20px;
+}

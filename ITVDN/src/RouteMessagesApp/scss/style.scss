@@ -1,0 +1,61 @@
+@import "palette";
+@import "about-page";
+
+* {box-sizing: border-box;}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.route-messages-app {
+  background: $background-color;
+  width: 100vw;
+  min-height: 100vh;
+
+  .menu-bar {
+    display: flex;
+    background: $primary-color;
+    height: 50px;
+    padding: 12px 0;
+  }
+
+  .menu-item {
+    padding: 0 16px;
+    color: $contrast-text-color;
+
+    &:hover {
+      background: darken($primary-color, 5%);
+    }
+  }
+
+  .menu-item-link {
+    font-size: 17px;
+    color: $contrast-text-color;
+  }
+
+  .content {
+    padding: 20px 30px;
+  }
+}
+//message preview
+.message-preview {
+  padding: 8px;
+  background: $card-background-color;
+  border-bottom: 1px solid $divider-color;
+  cursor: pointer;
+
+  &:hover {
+    background: lighten($primary-color, 55%);
+  }
+
+  .title {
+    font-size: 16px;
+    color: $text-color;
+  }
+
+  .from {
+    font-size: 14px;
+    color: $secondary-text-color;
+  }
+}

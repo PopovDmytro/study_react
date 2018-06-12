@@ -1,0 +1,47 @@
+[
+  {
+    "id": "123123a",
+    "img": "https://s.pn.com.ua/i/md/1022/2093154/2093154_00c.jpg",
+    "thumbnail": "https://s.pn.com.ua/i/md/1022/2093154/2093154_00c.jpg",
+    "title": "1",
+    "name": "grundic",
+    "description": "lorem lorem lorem",
+    "price": "100"
+  },
+  {
+    "id": "12357123b",
+    "img": "https://s.pn.com.ua/i/md/1022/2013332/2013332_00c.jpg",
+    "thumbnail": "https://s.pn.com.ua/i/md/1022/2013332/2013332_00c.jpg",
+    "title": "2",
+    "name": "berezka much worse than i thought",
+    "description": "lorem lorem lorem",
+    "price": "80"
+  },
+  {
+    "id": "c2134gsdf",
+    "img": "https://s.pn.com.ua/i/md/1022/2093154/2093154_00c.jpg",
+    "thumbnail": "https://s.pn.com.ua/i/md/1022/2093154/2093154_00c.jpg",
+    "title": "3",
+    "name": "samsung good",
+    "description": "lorem lorem lorem",
+    "price": "120"
+  },
+  {
+    "id": "gassdjgn345r",
+    "img": "https://s.pn.com.ua/i/md/1022/2013332/2013332_00c.jpg",
+    "thumbnail": "https://s.pn.com.ua/i/md/1022/2013332/2013332_00c.jpg",
+    "title": "4",
+    "name": "samsung excellent",
+    "description": "lorem lorem lorem",
+    "price": "170"
+  },
+  {
+    "id": "sdgfsmgdk23",
+    "img": "https://s.pn.com.ua/i/md/1022/1615293/1615293_00c.jpg",
+    "thumbnail": "https://s.pn.com.ua/i/md/1022/1615293/1615293_00c.jpg",
+    "title": "5",
+    "name": "lg fine",
+    "description": "lorem lorem lorem",
+    "price": "10"
+  }
+]

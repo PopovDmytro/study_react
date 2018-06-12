@@ -1,0 +1,69 @@
+import Terrain from 'react-icons/lib/md/terrain'
+import SnowFlake from 'react-icons/lib/ti/weather-snow'
+import Calendar from 'react-icons/lib/fa/calendar'
+import { SkiDayRow } from './SkiDayRow'
+import { PropTypes } from 'prop-types'
+import { NavLink } from 'react-router-dom'
+
+export const SkiDayList = ({days, filter}) => {
+
+
+	const filteredDays = (!filter ||
+		!filter.match(/powder|backcountry/)) ?
+		days :
+		days.filter(day => day[ filter.split('/')[2] ]);
+
+	return (
+		<div className="ski-day-list">
+			<table>
+
+				<thead>
+				<tr>
+					<th>Date</th>
+					<th>Resort</th>
+					<th>Powder</th>
+					<th>Backcountry</th>
+				</tr>
+				<tr>
+					<td colSpan={4}>
+						<NavLink to="/list-days"> All days </NavLink>
+						<NavLink to="/list-days/powder"> Powder Days </NavLink>
+						<NavLink to="/list-days/backcountry"> Backcountry Days </NavLink>
+					</td>
+				</tr>
+				</thead>
+
+				<tbody>
+				{filteredDays.map((day, i ) =>
+						<SkiDayRow key={i}
+											 { ...day } />
+
+					/*{ ...day }							take all keys from day
+																		the same as
+						resort={day.resort}
+						date={day.date}
+						powder={day.powder}
+						backcountry={day.backcountry}*/
+
+				)}
+				</tbody>
+
+			</table>
+		</div>
+	)
+};
+
+SkiDayList.propTypes = {
+	days: function (props) {
+		if(! Array.isArray(props.days)) {
+			return new Error("SkiDayList should be an array")
+		} else if (!props.days.length) {
+			return new Error("SkiDayList must have at least one record")
+		} else {
+			return null
+		}
+	}
+};
+
+
+

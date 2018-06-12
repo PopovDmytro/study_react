@@ -1,0 +1,32 @@
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.contact-block {
+  max-width: 400px;
+  margin: 0 auto;
+  border: 1px solid #ddd;
+  padding: 20px;
+}
+.contact-list {
+
+  .item {
+    padding: 10px 0;
+    border-bottom: 1px solid #777;
+  }
+}
+
+.contact-img {
+  float: left;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 25px;
+
+  img {
+    max-width: 140px;
+  }
+}

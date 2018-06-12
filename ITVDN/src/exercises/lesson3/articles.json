@@ -1,0 +1,24 @@
+{
+  "articles": [
+    {
+      "id": 1,
+      "text": "lorem ip Lorem ipsum dolor sit amet, consectetur adipisicing.Lorem ipsum dolor sit amet, consectetur adipisicing.Lorem ipsum dolor sit amet, consectetur adipisicing."
+    },
+    {
+      "id": 2,
+      "text": "ASddd lorem ip Lorem ipsum dolor sit amet, consectetur adipisicing."
+    },
+    {
+      "id": 3,
+      "text": "Lorem ipsum dolor sit amet, consectetur adipisicing."
+    },
+    {
+      "id": 4,
+      "text": "Dir article"
+    },
+    {
+      "id": 5,
+      "text": "Hello article"
+    }
+  ]
+}
