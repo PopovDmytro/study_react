@@ -1,6 +1,8 @@
 import React from 'react';
 //
 import NewsItem from './news_list_item';
+//
+import classes from '../styles/news-list.css';
 
 const NewsList = ({news, children}) => {
 
@@ -11,7 +13,7 @@ const NewsList = ({news, children}) => {
     return (
         <div>
             <h3>News list</h3>
-            <ul>
+            <ul className={classes.news_list}>
                 {items}
             </ul>
         </div>
