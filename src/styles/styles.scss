@@ -1,0 +1,30 @@
+* {
+    font: 14px / 1.4 Verdana, sans-serif;
+}
+
+h1 {font-size: 300%;}
+h2 {font-size: 200%;}
+h3 {font-size: 150%;}
+h4 {}
+h5 {}
+h6 {}
+
+header {
+    background-color: #03a9f4;
+    padding: 10px;
+    text-align: center;
+}
+
+.logo {
+    color: #fff;
+    font-family: sans-serif;
+    margin-bottom: 10px;
+}
+
+.active {
+    background-color: green;
+}
+
+.not-active {
+    background-color: red;
+}
