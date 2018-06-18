@@ -1,31 +1,39 @@
-import React, {Component} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-//Components
-import Header from './components/header';
-import NewsList from './components/news_list';
+import {BrowserRouter, /*HashRouter, MemoryRouter,*/ Route, NavLink, Switch} from 'react-router-dom';
 //
-import './styles/styles.css';
-//imported data
-import JSON from './db.json';
+import Posts from './components/posts';
+import Home from './components/home';
+import Profile from './components/profile';
+import PostsItem from './components/post_item';
+//
 
-class App extends Component {
 
-    state = {
-        news: JSON
-    };
-
-    test = {a: 1};
-
-    render() {
-
-        return (
-            <div>
-                <Header></Header>
-                <NewsList news={this.state.news} donkey={"Hi pi"}>
-                </NewsList>
+const App = () => {
+    return (
+        <BrowserRouter>
+            <div className="">
+                <header>
+                    <NavLink to="/" exact activeClassName="selected" activeStyle={{color: 'lightblue'}}>Home</NavLink><br/>
+                    <NavLink to="/posts" activeClassName="selected">Posts</NavLink><br/>
+                    <NavLink to={{
+                        pathname: '/profile',
+                        hash: '#francis',
+                        search: '?profile=true'
+                    }} activeClassName="selected">Profile</NavLink>
+                </header>
+                <hr/>
+                <Switch>Using switch instead of exact attribute
+                    <Route path="/posts/:id/:username" component={PostsItem} />
+                    <Route path="/posts" component={Posts} />
+                    <Route path="/profile" component={Profile} />
+                    <Route path="/" exact component={Home} />
+                    {/*<Route render={() => <h3>oop 404</h3>}/>*/}
+                    <Route component={Posts}/>
+                </Switch>
             </div>
-        );
-    }
+        </BrowserRouter>
+    );
 };
 
 ReactDOM.render(<App/>, document.querySelector('#root'));
