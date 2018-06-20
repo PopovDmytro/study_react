@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 // import PropTypes from 'prop-types';
 
-class Lifecycles extends Component {
+class Lifecycles extends PureComponent {
 
     //1 get default props
 
@@ -9,6 +9,7 @@ class Lifecycles extends Component {
     state = {
         title: 'title'
     };
+    /*
     //5 after jsx
     componentDidMount() {
         console.log('//5 after jsx');
@@ -18,9 +19,19 @@ class Lifecycles extends Component {
     componentWillMount() {
         console.log('//3 before render');
     }
+    //react 17+
+    UNSAFE_componentWillMount() {}
+
+    getDerivedStateFromProps(){
+    }
 
     componentWillUpdate() {
         console.log('Before update');
+    }
+    //react 17+
+    UNSAFE_componentWillUpdate() {}
+
+    getSnapshotBeforeUpdate(){
     }
 
     componentDidUpdate() {
@@ -28,24 +39,25 @@ class Lifecycles extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        console.log(this.state.title);
-        console.log(nextState);
+        // console.log(this.state.title);
+        // console.log(nextState);
 
-        if(nextState.title === 'something else') {
+        if(nextState.title === this.state.title) {
             return false; //app will not re render
         }
-
         return true;
     }
 
     componentWillReceiveProps() {
         console.log('before receive props');
     }
+    // react 17+
+    UNSAFE_componentWillReceiveProps() {}
 
     componentWillUnmount () {
         console.log('unmount');
     }
-
+    */
     //4 render jxs
     render() {
         console.log('render');
@@ -56,10 +68,6 @@ class Lifecycles extends Component {
             </div>
         );
     }
-
-
-
-    //6
 }
 
 // Lifecycles.propTypes = {};
