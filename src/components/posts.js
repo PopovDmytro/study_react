@@ -1,17 +1,27 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+// import {Link} from 'react-router-dom';
 
 const Posts = () => {
-    return (
-        <div>
-            <h3>Posts</h3>
-            <div>
-                <NavLink to="/posts/1/user1">post 1</NavLink><br />
-                <NavLink to="/posts/2/user2">post 2</NavLink><br />
-                <NavLink to="/posts/3/user3">post 3</NavLink>
-            </div>
-        </div>
-    );
+
+    // const ids = [
+    //     {id: '1', name: 'Post 1'},
+    //     {id: '2', name: 'Post 2'},
+    //     {id: '3', name: 'Post 3'}
+    // ];
+
+    // const list = ids.map(item => {
+    //     return (
+    //         <span key={item.id}>
+    //             <Link to={item.id}>{item.name}</Link>
+    //         </span>
+    //     );
+    // });
+
+    return [
+        <div key="1">hello</div>,
+        <div key="2">I am</div>,
+        <div key='12'>a react ap</div>
+    ];
 };
 
 export default Posts;
