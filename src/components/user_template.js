@@ -26,7 +26,7 @@ UserTemplate.propTypes = {
     // mother: PropTypes.string.isRequired
     mother: function (props, propsName, componentName) {
         if(props[propsName] !== "Jane") {
-          return new Error(`the name ${props[propsName]} is incorrect, should be ... !`);
+          // return new Error(`the name ${props[propsName]} is incorrect, should be ... !`);
         }
     }
 };
