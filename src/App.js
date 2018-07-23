@@ -1,15 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 // styles
-import './scss/app.scss'
+import './scss/app.scss';
+// componsnts 
+import Routes from './routes';
 
-class App extends Component {
-    render() {
-        return (
-            <div className="root">
-                <h1>test</h1>
-            </div>
-        );
-    }
+const App = () => {
+    return (
+        <BrowserRouter>
+            <Routes />
+        </BrowserRouter>
+    );
 }
 
 export default App;
