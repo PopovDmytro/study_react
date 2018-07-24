@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // 
 import Header from '../../components/Header/header';
+import Footer from '../../components/Footer/footer';
 // 
 import './layout.scss';
 // 
@@ -9,13 +10,13 @@ export default class Layout extends Component {
 
     state = {
       showNav: false
-    }
+    };
 
     toggleSidenav = (action) => {
       this.setState({
         showNav: action
       });
-    }
+    };
 
   render() {
     return (
@@ -26,7 +27,7 @@ export default class Layout extends Component {
           onOpenNav={() => this.toggleSidenav(true)}
         />
         {this.props.children}
-        <footer>Footer</footer>
+        <Footer />
       </div>
     )
   }
