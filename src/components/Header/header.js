@@ -15,7 +15,7 @@ const Header = (props) => {
                 <img src="/images/nba_logo.png" alt="logo" />
             </Link>
         )
-    }
+    };
 
     const navBar = () => {
         return (
@@ -27,7 +27,7 @@ const Header = (props) => {
                 />
             </div>
         )
-    }
+    };
 
     return (
         <header className={style.header} >
@@ -38,6 +38,6 @@ const Header = (props) => {
             </div>
         </header>
     )
-}
+};
 
 export default Header
