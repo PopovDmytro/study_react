@@ -17,7 +17,7 @@ const Home = () => (
             type="card"
             loadmore={true}
             start={3}
-            amount={2}
+            amount={5}
         />
     </div>
 );
