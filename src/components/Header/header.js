@@ -1,43 +1,16 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
-// 
-import SideNav from './SideNav/sideNav'
-// 
-import style from './header.scss'
-// 
-import FontAwesome from 'react-fontawesome';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Header = (props) => {
-
-    const logo = () => {
-        return (
-            <Link to="/" className={style.logo}>
-                <img src="/images/nba_logo.png" alt="logo" />
-            </Link>
-        )
-    };
-
-    const navBar = () => {
-        return (
-            <div>
-                <FontAwesome 
-                    name="bars"
-                    onClick={props.onOpenNav}
-                    className={style.navToggle}  
-                />
-            </div>
-        )
-    };
-
+const header = () => {
     return (
-        <header className={style.header} >
-            <SideNav {...props} />
-            <div className={style.headerOpt} >
-                {navBar()}
-                {logo()}
+        <header>
+            <div>
+                <Link to="/uncontrolled"> Uncontrolled </Link>
+                <Link to="/controlled"> Controlled </Link>
+                <Link to="/user"> User </Link>
             </div>
         </header>
-    )
+    );
 };
 
-export default Header
+export default header;

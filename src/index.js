@@ -1,8 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// component
-import App from './App';
-// styles
-import './index.scss';
+import Routes from './routes';
+import { BrowserRouter } from 'react-router-dom';
+
+const App = () =>{
+    return(
+        <BrowserRouter>
+            <Routes/>
+        </BrowserRouter>
+    )
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
+
