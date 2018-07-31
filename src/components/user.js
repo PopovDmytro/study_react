@@ -16,7 +16,8 @@ class User extends Component {
                     placeholder: 'Enter name'
                 },
                 validation: {
-                    required: true
+                    required: true,
+                    minLen: 5
                 },
                 valid: false,
                 touched: false,
@@ -35,7 +36,7 @@ class User extends Component {
                 validation: {
                     required: true
                 },
-                valid: true,
+                valid: false,
                 touched: false,
                 vliadationMessage: ''
             },
@@ -48,7 +49,11 @@ class User extends Component {
                     name: 'message_input',
                     rows: 5,
                     cols: 25
-                }
+                },
+                validation: {
+                    required: false
+                },
+                valid: true
             },
             age: {
                 element: 'select',
@@ -62,7 +67,11 @@ class User extends Component {
                         {val: '2', text: '21-30'},
                         {val: '3', text: '30+'}
                     ]
-                }
+                },
+                validation: {
+                    required: false
+                },
+                valid: true
             }
         }
     };
@@ -75,8 +84,8 @@ class User extends Component {
 
     submitForm = (event) => {
         event.preventDefault();
-
         let dataToSubmit = {};
+        let formValid = true;
 
         for(let key in this.state.formData) {
             if(this.state.formData.hasOwnProperty(key)) {
@@ -84,7 +93,15 @@ class User extends Component {
             }
         }
 
-        console.log(dataToSubmit);
+        for (let key in this.state.formData) {
+            if(this.state.formData.hasOwnProperty(key)) {
+                formValid = this.state.formData[key].valid && formValid;
+            }
+        }
+
+        if(formValid) {
+            console.log(dataToSubmit);
+        }
     };
 
     render(){
@@ -93,6 +110,7 @@ class User extends Component {
                 <form onSubmit={this.submitForm}>
                     <FormFields
                         formData={this.state.formData}
+                        onblur={(newState) => this.updateForm(newState)}
                         change={(newState) => this.updateForm(newState)}
                     />
                     <button type="submit">Submit</button>
