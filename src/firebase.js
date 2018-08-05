@@ -13,6 +13,14 @@ firebase.initializeApp(config);
 
 const firebaseDB = firebase.database();
 
+const googleAuth = new firebase.auth.GoogleAuthProvider();
+
+export {
+    firebase,
+    firebaseDB,
+    googleAuth
+};
+
 //set update delete
 // firebaseDB.ref('eyes').set(null)
 /*
