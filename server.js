@@ -1,34 +1,29 @@
-const express = require('express');
-const app = express();
+const {MongoClient} = require('mongodb');
 
-app.get('/api/users', (req, res) => {
-    res.json([
-        {
-            id: 1,
-            username: 'Yourname'
-        },
-        {
-            id: 2,
-            username: 'Steve'
+const url = 'mongodb://localhost:27017/test';
+
+// MongoClient.connect(url, (err, db) => {
+//     if(err) {
+//         console.log('could not connect');
+//     }
+//     console.log('connected !!!');
+//     db.close();
+// });
+
+MongoClient.connect(url, (err, client) => {
+
+    const db = client.db('test');
+
+    db.collection('Cars').insertOne({
+        _od: 777,
+        mode: "Forr",
+        year: 2017
+    }, (err,res) => {
+        if(err) {
+            return console.log(`Cannot insert: ${err}`);
         }
-    ]);
+
+        // console.log(res.ops[0]._id.getTimestamp());
+    });
+    client.close();
 });
-
-
-app.get('/api/cars', (req, res) => {
-    res.json([
-        {
-            id: 1,
-            brand: 'Ford'
-        },
-        {
-            id: 2,
-            brand: 'Toyuota'
-        }
-    ]);
-});
-
-
-const port = process.env.PORT || 9001;
-
-app.listen(port);
