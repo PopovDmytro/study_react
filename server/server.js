@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -8,8 +9,10 @@ mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/auth', { useNewUrlParser: true });
 
 const {User} = require('./models/user');
+const {auth} = require('./middleware/auth');
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 
 app.post('/api/user', (req, res) => {
@@ -37,10 +40,20 @@ app.post('/api/user/login', (req, res) => {
                 message: 'Wrong password'
             });
 
-            res.status(200).send(isMatch);
+            // res.status(200).send(isMatch);
+
+            user.generateToken((err, user) => {
+                if(err) return res.status(400).send(err);
+
+                res.cookie('auth', user.token).send('ok');
+            });
         });
     });
 });
+
+app.get('/user/profile',auth, (req, res) => {
+    res.status(200).send(req.token);
+})
 
 const port = process.env.PORT || 9000;
 
