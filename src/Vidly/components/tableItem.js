@@ -1,5 +1,4 @@
 import React from 'react';
-// import Like from '../common/like';
 //
 import _ from 'lodash';
 

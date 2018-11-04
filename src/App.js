@@ -3,9 +3,8 @@ import React, { Component } from "react";
 import "./App.scss";
 //
 // import Counter from "./components/counter";
-import Vidly from "./Vidly/vidly";
-import Navigation from './Navigation/navigation';
-import Counters from './Counters/counters';
+// import Navigation from './Navigation/navigation';
+// import Counters from './Counters/counters';
 
 class App extends Component {
 
@@ -67,10 +66,10 @@ class App extends Component {
 
         return (
             <React.Fragment>
-                <Navigation totalCounters={this.state.counters.filter(c => c.value > 0).length} />
+                {/*<Navigation totalCounters={this.state.counters.filter(c => c.value > 0).length} />*/}
                 <main className="container">
                     {/*<Counters onReset={this.handleReset} onIncrement={this.handleIncrement} onDecrement={this.handleDecrement} onDelete={this.handleDelete} counters={this.state.counters} />*/}
-                    <Vidly />
+                    {/*<Vidly />*/}
                 </main>
             </React.Fragment>
         );

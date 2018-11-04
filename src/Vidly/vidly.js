@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 //
 import _ from 'lodash';
 //
@@ -17,7 +18,7 @@ import Like from './common/like';
 export default class Vidly extends Component {
 
     columns = [
-        {path: "title", label: 'Title'},
+        {path: "title", label: 'Title', content: movie => (<Link to={`/movies/${movie._id}`} >{movie.title}</Link>)},
         {path: "genre.name", label: 'Genre'},
         {path: "numberInStock", label: 'Stock'},
         {path: "dailyRentalRate", label: 'Rate'},
@@ -98,7 +99,8 @@ export default class Vidly extends Component {
 
         const {totalCount, data: movies} = this.getPageData();
 
-        return <div className="row vidly-section" >
+        return  (
+        <div className="row vidly-section" >
             <div className="col-8 offset-4">
                 <TableMessage moviesLength={totalCount} />
             </div>
@@ -125,6 +127,7 @@ export default class Vidly extends Component {
                     currentPage={this.state.currentPage} />
                 }
             </div>
-        </div>;
+        </div>
+        );
     }
 }
