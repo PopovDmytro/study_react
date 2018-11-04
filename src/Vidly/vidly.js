@@ -3,9 +3,6 @@ import {Link} from 'react-router-dom';
 //
 import _ from 'lodash';
 //
-import {getMovies} from '../services/fakeMovieService';
-import {getGenres} from '../services/fakeGenreService';
-//
 import TableMessage from './components/tableMessage';
 import Pagination from './components/pagination';
 import CategoryList from './components/categoryList';
@@ -13,17 +10,26 @@ import MoviesTable from './components/moviesTable';
 //
 import {paginate} from './utils/paginate';
 import Like from './common/like';
+import Search from './common/search';
 
 
 export default class Vidly extends Component {
 
     columns = [
-        {path: "title", label: 'Title', content: movie => (<Link to={`/movies/${movie._id}`} >{movie.title}</Link>)},
-        {path: "genre.name", label: 'Genre'},
-        {path: "numberInStock", label: 'Stock'},
-        {path: "dailyRentalRate", label: 'Rate'},
-        {key: "liked", content: movie => (<Like liked={movie.liked} onClick={() => {this.handleLike(movie)}} />) },
-        {key: "delete", content: movie => (<button onClick={() => {this.handleDelete(movie);}} className="btn btn-danger">Delete</button>) }
+        {path: 'title', label: 'Title', content: movie => (<Link to={`/movies/${movie._id}`}>{movie.title}</Link>)},
+        {path: 'genre.name', label: 'Genre'},
+        {path: 'numberInStock', label: 'Stock'},
+        {path: 'dailyRentalRate', label: 'Rate'},
+        {
+            key: 'liked', content: movie => (<Like liked={movie.liked} onClick={() => {
+                this.handleLike(movie);
+            }}/>)
+        },
+        {
+            key: 'delete', content: movie => (<button onClick={() => {
+                this.handleDelete(movie);
+            }} className="btn btn-danger">Delete</button>)
+        }
     ];
 
     constructor(props) {
@@ -37,20 +43,22 @@ export default class Vidly extends Component {
             currentPage: 1,
             // currentMovies: [],
             selectedGenre: {name: 'All Genres'},
-            sortColumn: {path: "title", order: 'asc'}
+            sortColumn: {path: 'title', order: 'asc'},
+            searchString: ''
         };
     }
 
-    componentDidMount () {
-        const genres = [{name: 'All Genres', _id: ''}, ...getGenres()];
-        this.setState({movies: getMovies(), genres/*, currentMovies: getMovies()*/});
+    componentDidMount() {
+        const genres = [{name: 'All Genres', _id: ''}, ...this.props.getGenres()];
+        this.setState({movies: this.props.getMovies(), genres/*, currentMovies: getMovies()*/});
     }
 
     handleDelete = (movie) => {
         const movies = [...this.state.movies];
-        movies.splice( movies.findIndex((el => el._id === movie._id )), 1);
+        movies.splice(movies.findIndex((el => el._id === movie._id)), 1);
 
         this.setState({movies});
+        this.props.deleteMovie(movie._id);
     };
 
     handleLike = (movie) => {
@@ -67,9 +75,9 @@ export default class Vidly extends Component {
     };
 
     handleGenreMovies = (genre) => {
-        if(genre) {
+        if (genre) {
             // const currentMovies = this.state.movies.filter( movie => movie.genre._id === genre._id);
-            this.setState({/*currentMovies,*/ selectedGenre: genre, currentPage: 1});
+            this.setState({/*currentMovies,*/ selectedGenre: genre, currentPage: 1, searchString: ''});
         } else {
             this.setState({/*currentMovies: this.state.movies,*/ selectedGenre: null});
         }
@@ -79,18 +87,26 @@ export default class Vidly extends Component {
         this.setState({sortColumn});
     };
 
-    // currentMovies = (movies, page, perPage = 5) => {
-    //     if(!movies.length) movies = this.state.movies;
-    //     let start = page * perPage;
-    //     const moviesArr = movies.slice(start, start + perPage);
-    //     return moviesArr;
-    // };
+    handleSearchChange = (searchString) => {
+        this.setState({searchString: searchString, selectedGenre: {name: 'All Genres'}, currentPage: 1});
+    };
 
     getPageData = () => {
 
-        const filteredMovies = this.state.selectedGenre && this.state.selectedGenre._id ?  this.state.movies.filter(movie => movie.genre._id === this.state.selectedGenre._id) : this.state.movies ;
-        const sorted = _.orderBy(filteredMovies, [this.state.sortColumn.path], [this.state.sortColumn.order]);
-        const currentMovies = paginate(sorted, this.state.currentPage, this.state.perPage);
+        const {movies, selectedGenre, searchString, currentPage, sortColumn, perPage} = this.state;
+
+        let filteredMovies = movies;
+
+        if(searchString) {
+            filteredMovies = movies.filter(movie => {
+                return ~movie.title.toLowerCase().indexOf(searchString.toLowerCase());
+            });
+        } else if(selectedGenre && selectedGenre._id) {
+            filteredMovies = movies.filter(movie => movie.genre._id === selectedGenre._id);
+        }
+
+        const sorted = _.orderBy(filteredMovies, [sortColumn.path], [sortColumn.order]);
+        const currentMovies = paginate(sorted, currentPage, perPage);
 
         return {totalCount: filteredMovies.length, data: currentMovies};
     };
@@ -99,35 +115,41 @@ export default class Vidly extends Component {
 
         const {totalCount, data: movies} = this.getPageData();
 
-        return  (
-        <div className="row vidly-section" >
-            <div className="col-8 offset-4">
-                <TableMessage moviesLength={totalCount} />
+        return (
+            <div className="row vidly-section">
+                <div className="col-8 offset-4 mt-2">
+                    <Link className="btn btn-primary" to="/movies/new">New Movie</Link>
+                </div>
+                <div className="col-8 offset-4">
+                    <TableMessage moviesLength={totalCount}/>
+                </div>
+                <div className="col-8 offset-4">
+                    <Search onSearchChange={this.handleSearchChange} searchValue={this.state.searchString} />
+                </div>
+                <div className="col-4">
+                    <CategoryList
+                        onCategoryIdChange={this.handleGenreMovies}
+                        genres={this.state.genres}
+                        selectedGenre={this.state.selectedGenre}
+                    />
+                </div>
+                <div className="col-8">
+                    <MoviesTable
+                        columns={this.columns}
+                        sortColumn={this.state.sortColumn}
+                        onSort={this.handleSort}
+                        movieObjFields={this.state.movieObjFields}
+                        currentMovies={movies}
+                        handleLike={this.handleLike}
+                        onDeleteMovie={this.handleDelete}/>
+                    {!!this.state.movies.length &&
+                    <Pagination
+                        onChangePage={this.handleChangePage}
+                        pages={Math.ceil(totalCount / this.state.perPage)}
+                        currentPage={this.state.currentPage}/>
+                    }
+                </div>
             </div>
-            <div className="col-4">
-                <CategoryList
-                    onCategoryIdChange={this.handleGenreMovies}
-                    genres={this.state.genres}
-                    selectedGenre={this.state.selectedGenre}
-                />
-            </div>
-            <div className="col-8">
-                <MoviesTable
-                    columns={this.columns}
-                    sortColumn={this.state.sortColumn}
-                    onSort={this.handleSort}
-                    movieObjFields={this.state.movieObjFields}
-                    currentMovies={movies}
-                    handleLike={this.handleLike}
-                    onDeleteMovie={this.handleDelete}/>
-                {!!this.state.movies.length &&
-                <Pagination
-                    onChangePage={this.handleChangePage}
-                    pages={Math.ceil(totalCount / this.state.perPage)}
-                    currentPage={this.state.currentPage} />
-                }
-            </div>
-        </div>
         );
     }
 }

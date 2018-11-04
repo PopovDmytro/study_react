@@ -18,7 +18,7 @@ const Pagination = ({currentPage, onChangePage, pages}) => {
             <ul className="pagination">
                 {currentPage > 1 ?
                     <li className="page-item">
-                    <span onClick={() => { onChangePage(currentPage) }} className="page-link" data-href={currentPage} aria-label="Previous">
+                    <span onClick={() => { onChangePage(currentPage - 1) }} className="page-link" data-href={currentPage - 1} aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                         <span className="sr-only">Previous</span>
                     </span>
@@ -27,9 +27,9 @@ const Pagination = ({currentPage, onChangePage, pages}) => {
                     null
                 }
                 {getPagesLi()}
-                {currentPage !== pages ?
+                {currentPage < pages ?
                     <li className="page-item">
-                        <span onClick={() => { onChangePage(currentPage) }} className="page-link" data-href={currentPage} aria-label="Next">
+                        <span onClick={() => { onChangePage(currentPage + 1) }} className="page-link" data-href={currentPage + 1} aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                             <span className="sr-only">Next</span>
                         </span>

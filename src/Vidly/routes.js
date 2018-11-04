@@ -8,6 +8,11 @@ import Rentals from './pages/rentals';
 import MovieForm from './pages/movieForm';
 import NotFound from './pages/notFound';
 import LoginForm from './pages/loginForm';
+import RegisterForm from './pages/registerForm';
+//
+import {getMovies, saveMovie, deleteMovie} from '../services/fakeMovieService';
+import {getGenres} from '../services/fakeGenreService';
+//
 
 const RoutesVidly = () => {
     return (
@@ -16,9 +21,10 @@ const RoutesVidly = () => {
                 <NavBar/>
                 <div className="container">
                     <Switch>
-                        <Route path="/movies/:id" component={MovieForm} />
                         <Route path="/login" component={LoginForm} />
-                        <Route path="/movies" exact component={Vidly} />
+                        <Route path="/register" component={RegisterForm} />
+                        <Route path="/movies/:id" component={(props) => <MovieForm getMovies={getMovies} getGenres={getGenres} saveMovie={saveMovie} {...props} />} />
+                        <Route path="/movies" exact component={(props) => <Vidly getMovies={getMovies} getGenres={getGenres} saveMovie={saveMovie} deleteMovie={deleteMovie} {...props} />} />
                         <Route path="/customers" component={Customers} />
                         <Route path="/rentals" component={Rentals} />
                         <Route path="/not-found" component={NotFound} />

@@ -23,9 +23,12 @@ const NavBar = () => {
                         </li>
                     </ul>
                 </div>
-                <div className="login-block">
+                <div className="login-block d-flex">
                     <NavLink to="/login" className="nav-link" activeClassName="active" >
-                        <i className="fa fa-user"></i>
+                        <i className="fa fa-sign-in"></i>
+                    </NavLink>
+                    <NavLink to="/register" className="nav-link" activeClassName="active" >
+                        <i className="fa fa-user-plus"></i>
                     </NavLink>
                 </div>
             </nav>
