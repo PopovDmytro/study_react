@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import {toast} from 'react-toastify';
 //
 import _ from 'lodash';
 //
@@ -48,17 +49,29 @@ export default class Vidly extends Component {
         };
     }
 
-    componentDidMount() {
-        const genres = [{name: 'All Genres', _id: ''}, ...this.props.getGenres()];
-        this.setState({movies: this.props.getMovies(), genres/*, currentMovies: getMovies()*/});
+    async componentDidMount() {
+        const {data} = await this.props.getGenres();
+        const genres = [{name: 'All Genres', _id: ''}, ...data];
+
+        const {data: movies }= await this.props.getMovies();
+        this.setState({movies, genres/*, currentMovies: getMovies()*/});
     }
 
-    handleDelete = (movie) => {
-        const movies = [...this.state.movies];
-        movies.splice(movies.findIndex((el => el._id === movie._id)), 1);
+    handleDelete = async (movie) => {
+        const originalMovies = this.state.movies;
+        const movies = originalMovies.filter(m => m._id !== movie._id);
 
         this.setState({movies});
-        this.props.deleteMovie(movie._id);
+
+        try {
+            await this.props.deleteMovie(movie._id);
+        } catch (e) {
+            if(e.response && e.response.status === 404) {
+                toast.error('This movie has already been deleted.');
+            }
+            this.setState({movies: originalMovies});
+        }
+
     };
 
     handleLike = (movie) => {

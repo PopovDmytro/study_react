@@ -1,0 +1,6 @@
+{
+    "apiEndpoint" : "https://jsonplaceholder.typicode.com/posts",
+
+    "vidlyGenresApiEndpoint" : "http://localhost:3900/api/genres",
+    "vidlyMoviesApiEndpoint" : "http://localhost:3900/api/movies"
+}
