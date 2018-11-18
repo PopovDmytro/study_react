@@ -12,6 +12,8 @@ import './index.scss';
 // import App from './http-app/App';
 import RoutesVidly from './Vidly/routes'
 
+// console.log(process.env);
+
 logger.init();
 
 ReactDOM.render(<RoutesVidly/>, document.getElementById('root'));
