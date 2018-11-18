@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink, Link} from 'react-router-dom';
 
-const NavBar = () => {
+const NavBar = ({user}) => {
     return (
         <div>
             <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top justify-content-between">
@@ -23,14 +23,26 @@ const NavBar = () => {
                         </li>
                     </ul>
                 </div>
-                <div className="login-block d-flex">
-                    <NavLink to="/login" className="nav-link" activeClassName="active" >
-                        <i className="fa fa-sign-in"></i>
-                    </NavLink>
-                    <NavLink to="/register" className="nav-link" activeClassName="active" >
-                        <i className="fa fa-user-plus"></i>
-                    </NavLink>
-                </div>
+                {!user &&
+                    <div className="login-block d-flex">
+                        <NavLink to="/login" className="nav-link" activeClassName="active" >
+                            <i className="fa fa-sign-in"></i>
+                        </NavLink>
+                        <NavLink to="/register" className="nav-link" activeClassName="active" >
+                            <i className="fa fa-user-plus"></i>
+                        </NavLink>
+                    </div>
+                }
+                {user &&
+                    <div className="login-block d-flex">
+                        <NavLink to="/profile" className="nav-link" activeClassName="active" >
+                            {user.name}
+                        </NavLink>
+                        <NavLink to="/logout" className="nav-link" activeClassName="active" >
+                            <i className="fa fa-sign-out"></i>
+                        </NavLink>
+                    </div>
+                }
             </nav>
         </div>
     );

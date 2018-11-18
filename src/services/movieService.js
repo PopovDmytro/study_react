@@ -1,15 +1,13 @@
 import http from './httpService';
 //
 import {vidlyMoviesApiEndpoint} from '../config';
-//
-import * as genresAPI from './genreService';
 
 export function getMovies() {
     return http.get(vidlyMoviesApiEndpoint);
 }
 
 export function getMovie(id) {
-    return http.get(vidlyMoviesApiEndpoint + "/" + id);
+    return http.get(movieUrl(id));
 }
 
 export function saveMovie(movie, newMovie) {
@@ -19,12 +17,17 @@ export function saveMovie(movie, newMovie) {
     delete body.genre;
 
     if (!newMovie) {
-        return http.put(vidlyMoviesApiEndpoint + "/" + movie._id, body);
+        return http.put(movieUrl(movie._id), body);
     }
 
     return http.post(vidlyMoviesApiEndpoint, body);
 }
 
 export async function deleteMovie(id) {
-    await http.delete(vidlyMoviesApiEndpoint + "/" + id);
+    await http.delete(movieUrl(id));
+}
+
+//helpers
+function movieUrl (id) {
+    return `${vidlyMoviesApiEndpoint}/${id}`;
 }
