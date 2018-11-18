@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {toast} from 'react-toastify';
-//
 import _ from 'lodash';
+import auth from '../services/authService';
 //
 import TableMessage from './components/tableMessage';
-import Pagination from './components/pagination';
 import CategoryList from './components/categoryList';
 import MoviesTable from './components/moviesTable';
-//
+import Pagination from './components/pagination';
 import {paginate} from './utils/paginate';
 import Like from './common/like';
 import Search from './common/search';
@@ -17,7 +16,7 @@ import Search from './common/search';
 export default class Vidly extends Component {
 
     columns = [
-        {path: 'title', label: 'Title', content: movie => (<Link to={`/movies/${movie._id}`}>{movie.title}</Link>)},
+        {path: 'title', label: 'Title', content: movie => <Link to={`/movies/${movie._id}`}>{movie.title}</Link> },
         {path: 'genre.name', label: 'Genre'},
         {path: 'numberInStock', label: 'Stock'},
         {path: 'dailyRentalRate', label: 'Rate'},
@@ -25,13 +24,14 @@ export default class Vidly extends Component {
             key: 'liked', content: movie => (<Like liked={movie.liked} onClick={() => {
                 this.handleLike(movie);
             }}/>)
-        },
-        {
-            key: 'delete', content: movie => (<button onClick={() => {
-                this.handleDelete(movie);
-            }} className="btn btn-danger">Delete</button>)
         }
     ];
+
+    deleteColumn = {
+        key: 'delete', content: movie => (<button onClick={() => {
+            this.handleDelete(movie);
+        }} className="btn btn-danger">Delete</button>)
+    };
 
     constructor(props) {
         super(props);
@@ -39,7 +39,7 @@ export default class Vidly extends Component {
         this.state = {
             movies: [],
             genres: [],
-            movieObjFields: this.columns,
+            movieObjFields: [],
             perPage: 4,
             currentPage: 1,
             // currentMovies: [],
@@ -54,7 +54,14 @@ export default class Vidly extends Component {
         const genres = [{name: 'All Genres', _id: ''}, ...data];
 
         const {data: movies }= await this.props.getMovies();
-        this.setState({movies, genres/*, currentMovies: getMovies()*/});
+        this.setState({movies, genres});
+
+        const columns = [...this.columns];
+        const user = auth.getCurrentUser();
+        if(user && user.isAdmin) {
+            columns.push(this.deleteColumn);
+        }
+        this.setState({movieObjFields: columns});
     }
 
     handleDelete = async (movie) => {
@@ -89,10 +96,9 @@ export default class Vidly extends Component {
 
     handleGenreMovies = (genre) => {
         if (genre) {
-            // const currentMovies = this.state.movies.filter( movie => movie.genre._id === genre._id);
-            this.setState({/*currentMovies,*/ selectedGenre: genre, currentPage: 1, searchString: ''});
+            this.setState({selectedGenre: genre, currentPage: 1, searchString: ''});
         } else {
-            this.setState({/*currentMovies: this.state.movies,*/ selectedGenre: null});
+            this.setState({selectedGenre: null});
         }
     };
 
@@ -130,9 +136,11 @@ export default class Vidly extends Component {
 
         return (
             <div className="row vidly-section">
-                <div className="col-8 offset-4 mt-2">
-                    <Link className="btn btn-primary" to="/movies/new">New Movie</Link>
-                </div>
+                {this.props.user &&
+                    <div className="col-8 offset-4 mt-2">
+                        <Link className="btn btn-primary" to="/movies/new">New Movie</Link>
+                    </div>
+                }
                 <div className="col-8 offset-4">
                     <TableMessage moviesLength={totalCount}/>
                 </div>
@@ -148,7 +156,8 @@ export default class Vidly extends Component {
                 </div>
                 <div className="col-8">
                     <MoviesTable
-                        columns={this.columns}
+                        user={this.props.user}
+                        columns={this.state.movieObjFields}
                         sortColumn={this.state.sortColumn}
                         onSort={this.handleSort}
                         movieObjFields={this.state.movieObjFields}

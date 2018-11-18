@@ -8,6 +8,7 @@ import {getMovies, saveMovie, deleteMovie} from '../services/movieService';
 import {getGenres} from '../services/genreService';
 import auth from '../services/authService';
 //
+import ProtectedRoute from './common/protectedRoute';
 import NavBar from './navbar/navbar';
 import Vidly from './vidly';
 import Customers from './pages/customers';
@@ -41,8 +42,19 @@ class RoutesVidly extends Component {
                             <Route path="/login" component={LoginForm}/>
                             <Route path="/logout" component={Logout}/>
                             <Route path="/register" component={RegisterForm}/>
-                            <Route path="/movies/:id" component={(props) => <MovieForm getMovies={getMovies} getGenres={getGenres} saveMovie={saveMovie} {...props} />} />
-                            <Route path="/movies" exact component={(props) => <Vidly getMovies={getMovies} getGenres={getGenres} saveMovie={saveMovie} deleteMovie={deleteMovie} {...props} />} />
+                            {/*<Route path="/movies/:id"
+                                   render={(props) => {
+                                       if(!this.props.user) {
+                                           return <Redirect to="/login" />;
+                                       }
+                                       return <MovieForm user={this.state.user} getMovies={getMovies} getGenres={getGenres} saveMovie={saveMovie} {...props} />;
+                                   }}
+                            />*/}
+                            <ProtectedRoute path="/movies/:id" component={MovieForm} getMovies={getMovies} getGenres={getGenres} saveMovie={saveMovie} />
+                            <Route path="/movies"
+                                   exact
+                                   render={(props) => <Vidly getMovies={getMovies} getGenres={getGenres} saveMovie={saveMovie} deleteMovie={deleteMovie} {...props} />}
+                            />
                             <Route path="/customers" component={Customers} />
                             <Route path="/rentals" component={Rentals} />
                             <Route path="/not-found" component={NotFound} />
