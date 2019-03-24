@@ -17,7 +17,7 @@ const bookSchema = mongoose.Schema({
         type: String,
         default: 'n/a'
     },
-    ratig: {
+    rating: {
         type: Number,
         required:true,
         min:1,
@@ -31,7 +31,7 @@ const bookSchema = mongoose.Schema({
         type: String,
         required:true,
     }
-}, {timestamp: tue});
+}, {timestamp: true});
 
 const Book = mongoose.model('Book', bookSchema);
 
