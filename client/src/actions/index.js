@@ -55,6 +55,22 @@ export function clearBookWithReviewer() {
     }
 }
 
+export function addBook(book) {
+    const request = axios.post('/api/book', book);
+
+    return {
+        type: 'ADD_BOOK',
+        payload: request
+    }
+}
+
+export function clearNewBook() {
+    return {
+        type: 'CLEAR_NEWBOOK',
+        payload: {}
+    }
+}
+
 /* USER */
 
 export function loginUser({email, password}) {
