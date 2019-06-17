@@ -1,26 +1,35 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Link} from "react-router-dom";
+import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
+import Spinner from '../layout/Spinner';
 
 class Clients extends Component {
+
+    state = {
+        totalOwed: null
+    };
+
+    static getDerivedStateFromProps(props, state) {
+        const {clients} = props;
+
+        if(clients) {
+
+            const total = clients.reduce((total, client) => {
+                return total + parseFloat(client.balance);
+            }, 0);
+
+            return {totalOwed: total};
+        }
+
+        return null;
+    }
+
     render() {
-        const clients = [
-            {
-                id: '123132123',
-                firstName: 'Kevin',
-                lastName: 'Johnson',
-                email: 'com@com.com',
-                phone: '123123123-123123',
-                balance: '30'
-            },
-            {
-                id: '1231',
-                firstName: 'Bob',
-                lastName: 'Thorton',
-                email: 'bob@com.com',
-                phone: '1233-123123',
-                balance: '300'
-            }
-        ];
+        const {clients} = this.props;
+        const {totalOwed} = this.state;
 
         if (clients) {
             return (
@@ -30,7 +39,10 @@ class Clients extends Component {
                             <h2><i className="fa fa-users"/> Clients</h2>
                         </div>
                         <div className="col-md-6">
-
+                            <h5 className="text-right text-secondary ">
+                                Total Owed
+                                <span className="text-primary"> $ {parseFloat(totalOwed).toFixed(2)}</span>
+                            </h5>
                         </div>
                     </div>
                     <table className="table table-striped">
@@ -49,7 +61,7 @@ class Clients extends Component {
                                 <td>{client.email}</td>
                                 <td>$ {parseFloat(client.balance).toFixed(2)}</td>
                                 <td>
-                                    <Link to={`/clients/${client.id}`} className="btn btn-secondary"><i className="fa fa-arrow-circle-right" /> Details</Link>
+                                    <Link to={`/client/${client.id}`} className="btn btn-secondary"><i className="fa fa-arrow-circle-right" /> Details</Link>
                                 </td>
                             </tr>
                         ))}
@@ -58,9 +70,19 @@ class Clients extends Component {
                 </div>
             );
         } else {
-            return <h1>Loading...</h1>;
+            return <Spinner />;
         }
     }
 }
 
-export default Clients;
+Clients.propTypes = {
+    firestore: PropTypes.object.isRequired,
+    clients: PropTypes.array
+};
+
+export default compose(
+    firestoreConnect([{collection: 'clients'}]),
+    connect((state, props) => ({
+        clients: state.firestore.ordered.clients
+    }))
+)(Clients);
