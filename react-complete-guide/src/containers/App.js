@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 //
-import './App.scss';
+// import classes from './App.scss';
 //
-import Person from "./components/Person/Person";
+import Persons from "../components/Persons/Persons";
+import Cockpit from "../components/Cockpit/Cockpit";
+import WithClass from "../hoc/WithClass";
 
 
 /*exercise-2*/
@@ -11,6 +13,9 @@ import Person from "./components/Person/Person";
 import Char from "./components/Char/Char";*/
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+  }
 
   state = {
     persons: [
@@ -18,8 +23,46 @@ class App extends Component {
       {id: '2', name: 'Second name', age: 10},
       {id: '3', name: 'Third name', age: 100}
     ],
-    appInputStr: ''
+    appInputStr: '',
+    isVisibleCockpit: true
   };
+
+  /*life cycles*/
+  static getDerivedStateFromProps(props, state) {
+    console.log('getDerivedStateFromProps');
+    /*Sync state to props*/
+    return null;
+  }
+
+  componentDidMount() {
+    console.log('componentDidMount');
+    /*DO NOT update state here !*/
+  }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    console.log('shouldComponentUpdate');
+    /*May cancel updating*/
+    /*Decide whether continue or not*/
+    return 1;
+  }
+
+  /*then goes render*/
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    console.log('getSnapshotBeforeUpdate');
+    /*last-minute DOM ops*/
+    return 1;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log('componentDidUpdate', snapshot);
+
+    /*Do side effects*/
+
+    /*DO NOT update state here !*/
+  }
+
+  /**/
 
   clickHandler = (id, e) => {
     const newPersons = [...this.state.persons];
@@ -40,6 +83,10 @@ class App extends Component {
     this.setState({persons: newPersons});
   };
 
+  toggleCockpit = (e) => {
+    this.setState({isVisibleCockpit: !this.state.isVisibleCockpit});
+  };
+
   /*exercise-2*/
 
   /*handleChangeAppInput = (e) => {
@@ -52,16 +99,14 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        {this.state.persons.map((item, i) =>
-          <Person
-            {...item}
-            key={i}
-            btnClick={this.clickHandler}
-            inputChange={this.inputHandler}
-            handleDeletePerson={this.handleDeletePerson}
-          />
-        )}
+      <WithClass classes='App-wrapper'>
+        {this.state.isVisibleCockpit && <Cockpit />}
+        <button type="button" onClick={this.toggleCockpit}>Remove Cockpit</button>
+        <Persons persons={this.state.persons}
+                 clickHandler={this.clickHandler}
+                 inputHandler={this.inputHandler}
+                 handleDeletePerson={this.handleDeletePerson}
+        />
         {/*exercise-2*/}
         {/*<div className="exercise-2">
           <input type="text"
@@ -80,7 +125,7 @@ class App extends Component {
             ))}
           </ul>
         </div>*/}
-      </div>
+      </WithClass>
     );
   }
 }

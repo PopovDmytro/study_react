@@ -1,0 +1,42 @@
+.personCard {
+  box-shadow: 1px 1px 5px 5px #fafafa;
+  padding: 17px 5px;
+  width: 96%;
+  border: 1px solid #cacaca;
+  margin: 7px auto;
+  text-align: center;
+
+  @media screen and (min-width: 768px) {
+    width: 50%;
+  }
+
+  input {
+    background-color: #fafafafa;
+    border: 1px solid blue;
+    padding: 7px;
+  }
+
+  button {
+    border: 1px solid green;
+    background-color: transparent;
+    padding: 7px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: green;
+    }
+  }
+
+  .danger {
+    border: 1px solid red;
+
+    &:hover {
+      background-color: red;
+      color: #FFFFFF;
+    }
+  }
+
+  .colorRed {
+    color: #ff0000;
+  }
+}
