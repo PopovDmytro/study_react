@@ -1,0 +1,24 @@
+.Blog ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+}
+
+.Blog li {
+    margin: 20px;
+    display: inline-block;
+}
+
+.Blog a {
+    text-decoration: none;
+    color: #000;
+}
+
+a.active-link {
+    color: #40A4C8;
+}
+
+.Blog a:hover {
+    color: green;
+}
