@@ -402,7 +402,7 @@ module.exports = function(webpackEnv) {
                 importLoaders: 1,
                 sourceMap: isEnvProduction && shouldUseSourceMap,
                 modules: true,
-                localIdentName: '[name]_[local]'
+                localIdentName: '[local]' //[name]_[local]
               }),
               // Don't consider CSS imports dead code even if the
               // containing package claims to have no side effects.
@@ -432,7 +432,7 @@ module.exports = function(webpackEnv) {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                   modules: true,
-                  localIdentName: '[name]_[local]'
+                  localIdentName: '[local]' //[name]_[local]
                 },
                 'sass-loader'
               ),
