@@ -1,60 +1,26 @@
-import React, {Component, Fragment} from 'react';
+import React, {Fragment} from 'react';
 
 import Modal from '../../components/UI/Modal/Modal';
 
-const WithErrorHandler = (WrappedComponent, axios) => {
-  return class extends Component {
+import useHttpErrorHandler from '../../hooks/http-error-handler';
 
-    constructor(props) {
-      super(props);
+const withErrorHandler = (WrappedComponent, axios) => {
 
-      this.reqInterceptor = axios.interceptors.request.use(req => {
-        this.setState({error: null});
-        return req;
-      });
-      this.resInterceptor = axios.interceptors.response.use(res => res, error => {
-        this.setState({error: error});
-      });
-    }
+  const [error, cleanError] = useHttpErrorHandler(axios);
 
-    state = {
-      error: null
-    }
+  return (props) => {
 
-    /*componentWillMount () {
-        axios.interceptors.request.use(req => {
-            this.setState({error: null});
-            return req;
-        });
-        axios.interceptors.response.use(res => res, error => {
-            this.setState({error: error});
-        });
-    }*/
-
-    componentWillUnmount() {
-      // this.reqInterceptor.
-      // this.resInterceptor.
-      axios.interceptors.request.eject(this.reqInterceptor);
-      axios.interceptors.response.eject(this.resInterceptor);
-    }
-
-    errorConfirmedHandler = () => {
-      this.setState({error: null});
-    }
-
-    render() {
-      return (
-        <Fragment>
-          <Modal
-            show={this.state.error}
-            modalClosed={this.errorConfirmedHandler}>
-            {this.state.error ? this.state.error.message : null}
-          </Modal>
-          <WrappedComponent {...this.props} />
-        </Fragment>
-      );
-    }
+    return (
+      <Fragment>
+        <Modal
+          show={error}
+          modalClosed={cleanError}>
+          {error ? error.message : null}
+        </Modal>
+        <WrappedComponent {...props} />
+      </Fragment>
+    );
   }
-}
+};
 
-export default WithErrorHandler;
+export default withErrorHandler;
